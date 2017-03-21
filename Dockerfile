@@ -14,4 +14,6 @@ RUN adduser -u 82 -D -S -G elasticsearch elasticsearch
 RUN chown -R elasticsearch:elasticsearch /opt/elasticsearch
 USER elasticsearch
 
+RUN ./elasticsearch-plugin install -b https://github.com/vvanholl/elasticsearch-prometheus-exporter/releases/download/5.2.2.0/elasticsearch-prometheus-exporter-5.2.2.0.zip
+
 CMD ["./elasticsearch"]
