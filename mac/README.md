@@ -4,7 +4,7 @@ Make sure that you have logged in with Docker, use `docker login https://registr
 that it's possible to download dependencies from UW registry.
 
 1. Clone `uw-elasticsearch` repository.
-2. Copy paste `test_config` directory and `docker-compose.yml` to your project.
+2. Copy paste `config` directory and `docker-compose.yml` to your project.
 3. Update the copied `docker-compose.yml` and update `services.elasticsearch.build.context` to point to `uw-elasticsearch` repository.
 4. Run `docker-compose up`
 5. If experiencing issues with Kibana accessing ElasticSearch, you might need to update the `test_config/kibana.yml` - `elasticsearch.url` property to have the correct IP.
