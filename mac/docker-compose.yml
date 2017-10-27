@@ -3,15 +3,17 @@ services:
   elasticsearch:
     #image: registry.uw.systems/telecom/telecom-elasticsearch:latest
     build:
-      context: ../uw-elasticsearch/mac
+      context: ../
+      args:
+        VERSION: 5.6.3
     expose:
       - "9200"
     ports:
       - "9200:9200"
     volumes:
-      - ./config/elasticsearch.yml:/opt/elasticsearch/config/elasticsearch.yml
-      - ./config/log4j2.properties:/opt/elasticsearch/config/log4j2.properties
-      - ./config/jvm.options:/opt/elasticsearch/config/jvm.options
+      - ../config/elasticsearch.yml:/opt/elasticsearch/config/elasticsearch.yml
+      - ../config/log4j2.properties:/opt/elasticsearch/config/log4j2.properties
+      - ../config/jvm.options:/opt/elasticsearch/config/jvm.options
     networks:
       net:
         ipv4_address: 172.16.101.43
@@ -21,7 +23,7 @@ services:
     ports:
       - 5601:5601
     volumes:
-      - ./config/kibana.yml:/opt/kibana/config/kibana.yml
+      - ../config/kibana.yml:/opt/kibana/config/kibana.yml
     networks:
       net:
         ipv4_address: 172.16.101.44
@@ -43,7 +45,7 @@ services:
       - "9092:9092"
       - "2181:2181"
 
-    
+
 networks:
   net:
     driver: bridge
