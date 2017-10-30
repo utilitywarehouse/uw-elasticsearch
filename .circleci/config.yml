@@ -1,0 +1,35 @@
+version: 2
+
+jobs:
+    build:
+        working_directory: ~/build
+        docker:
+            - image: circleci/node:8
+        steps:
+            - checkout
+            - setup_remote_docker:
+                version: 17.09.0-ce
+            - run: make ci-docker-build
+
+    deploy:
+        working_directory: ~/build
+        docker:
+            - image: circleci/node:8
+        steps:
+            - checkout
+            - setup_remote_docker:
+                version: 17.09.0-ce
+            - run: make ci-docker-build
+            - run: make ci-docker-push
+
+workflows:
+  version: 2
+  development:
+    jobs:
+      - build
+  deploy:
+    jobs:
+      - deploy:
+          filters:
+            branches:
+              only: master

@@ -1,19 +1,5 @@
-FROM registry.uw.systems/base_images/uw-alpine-java:openjdk-8
-RUN mkdir -p /opt/elasticsearch
-WORKDIR /opt/elasticsearch
+ARG VERSION
+FROM docker.elastic.co/elasticsearch/elasticsearch:${VERSION}
 
-RUN apk --update add --no-cache wget ca-certificates bash
-RUN wget http://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.3.0.tar.gz
-RUN tar -zxvf elasticsearch-5.3.0.tar.gz --strip 1
-RUN rm elasticsearch-5.3.0.tar.gz
-
-WORKDIR /opt/elasticsearch/bin
-
-RUN addgroup -g 82 -S elasticsearch
-RUN adduser -u 82 -D -S -G elasticsearch elasticsearch
-RUN chown -R elasticsearch:elasticsearch /opt/elasticsearch
-USER elasticsearch
-
-RUN ./elasticsearch-plugin install -b https://distfiles.compuscene.net/elasticsearch/elasticsearch-prometheus-exporter-5.3.0.0.zip
-
-CMD ["./elasticsearch"]
+ARG VERSION
+RUN ./bin/elasticsearch-plugin install -b https://distfiles.compuscene.net/elasticsearch/elasticsearch-prometheus-exporter-${VERSION}.0.zip
