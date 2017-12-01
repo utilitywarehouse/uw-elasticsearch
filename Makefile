@@ -1,12 +1,12 @@
-VERSION=5.6.3
+VERSION=6.0.0
 
 DOCKER_REGISTRY=registry.uw.systems
 DOCKER_CONTAINER_NAME=elasticsearch
-NAMESPACE=prm
-DOCKER_REPOSITORY=$(DOCKER_REGISTRY)/$(NAMESPACE)/$(DOCKER_CONTAINER_NAME)
+DOCKER_REPOSITORY=$(DOCKER_REGISTRY)/$(DOCKER_CONTAINER_NAME)
 
 docker-build:
-	docker build -t $(DOCKER_CONTAINER_NAME) .
+	docker build --build-arg VERSION=$(VERSION) -t $(DOCKER_CONTAINER_NAME):$(VERSION) .
+	echo To run the image locally: docker run --rm -ti -e xpack.security.enabled=false -p 9200:9200 $(DOCKER_CONTAINER_NAME):$(VERSION)
 
 ci-docker-auth:
 	@docker login -u $(DOCKER_ID) -p $(DOCKER_PASSWORD) $(DOCKER_REGISTRY)
