@@ -1,19 +1,21 @@
-FROM openjdk:10
-RUN mkdir -p /opt/elasticsearch
-WORKDIR /opt/elasticsearch
+FROM openjdk:11
 
-RUN apt-get update
-RUN wget http://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.0.tar.gz
-RUN tar -zxvf elasticsearch-6.3.0.tar.gz --strip 1
-RUN rm elasticsearch-6.3.0.tar.gz
+ENV ES_VERSION="6.3.2"
 
+RUN \
+ apt-get update && \
+ mkdir -p /opt/elasticsearch && \
+ cd /opt/elasticsearch && \
+ wget http://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ES_VERSION}.tar.gz && \
+ tar -zxvf elasticsearch-${ES_VERSION}.tar.gz --strip 1 && \
+ rm elasticsearch-${ES_VERSION}.tar.gz && \
+ addgroup --gid 82 elasticsearch && \
+ useradd --gid 82 --uid 82 elasticsearch && \
+ chown -R elasticsearch:elasticsearch /opt/elasticsearch
+
+USER elasticsearch
 WORKDIR /opt/elasticsearch/bin
 
-RUN addgroup --gid 82 elasticsearch
-RUN useradd --gid 82 --uid 82 elasticsearch
-RUN chown -R elasticsearch:elasticsearch /opt/elasticsearch
-USER elasticsearch
-
-RUN ./elasticsearch-plugin install --batch https://distfiles.compuscene.net/elasticsearch/elasticsearch-prometheus-exporter-6.3.0.1.zip
+RUN ./elasticsearch-plugin install --batch https://distfiles.compuscene.net/elasticsearch/elasticsearch-prometheus-exporter-${ES_VERSION}.0.zip
 
 CMD ["./elasticsearch"]
