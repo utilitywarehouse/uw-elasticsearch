@@ -1,6 +1,6 @@
 FROM openjdk:11
 
-ENV ES_VERSION="6.3.2"
+ENV ES_VERSION="5.6.12"
 
 RUN \
  apt-get update && \
