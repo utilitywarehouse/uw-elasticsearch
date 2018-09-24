@@ -1,7 +1,6 @@
 FROM openjdk:11
 
-ENV ES_VERSION="5.6.11"
-ENV ES_PROM_EXPORTER_VERSION="5.6.11.0"
+ENV ES_VERSION="5.6.12"
 
 RUN \
  apt-get update && \
@@ -17,6 +16,6 @@ RUN \
 USER elasticsearch
 WORKDIR /opt/elasticsearch/bin
 
-RUN ./elasticsearch-plugin install --batch https://distfiles.compuscene.net/elasticsearch/elasticsearch-prometheus-exporter-${ES_PROM_EXPORTER_VERSION}.zip
+RUN ./elasticsearch-plugin install --batch https://distfiles.compuscene.net/elasticsearch/elasticsearch-prometheus-exporter-${ES_VERSION}.0.zip
 
 CMD ["./elasticsearch"]
