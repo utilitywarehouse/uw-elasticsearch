@@ -9,6 +9,7 @@ ENV LANG=C.UTF-8 \
 RUN sed -i s/#networkaddress.cache.ttl=-1/networkaddress.cache.ttl=10/ $JAVA_HOME/conf/security/java.security
 
 RUN \
+    apk --no-cache add bash && \
     mkdir -p /opt/elasticsearch && \
     cd /opt/elasticsearch && \
     wget http://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ES_VERSION}.tar.gz && \
