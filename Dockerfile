@@ -97,8 +97,8 @@ RUN \
     wget http://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ES_VERSION}.tar.gz && \
     tar -zxvf elasticsearch-${ES_VERSION}.tar.gz --strip 1 && \
     rm elasticsearch-${ES_VERSION}.tar.gz && \
-    addgroup -g 82 elasticsearch && \
-    adduser -D -H -u 82 elasticsearch && \
+    addgroup -S -g 82 elasticsearch && \
+    adduser -S -D -H -u 82 elasticsearch -G elasticsearch && \
     chown -R elasticsearch:elasticsearch /opt/elasticsearch
 
 USER elasticsearch
