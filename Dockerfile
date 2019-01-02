@@ -107,7 +107,7 @@ WORKDIR /opt/elasticsearch/bin
 RUN \
     # needed for mktemp fix, remove >6.6.0 - will be done in Java
     # https://github.com/elastic/elasticsearch/pull/36002
-    sed -i 's;\(`mktemp -d -t elasticsearch\)`;\1.XXXXXX`;' bin/elasticsearch-env && \
+    sed -i 's;\(`mktemp -d -t elasticsearch\)`;\1.XXXXXX`;' elasticsearch-env && \
     ./elasticsearch-plugin install --batch https://distfiles.compuscene.net/elasticsearch/elasticsearch-prometheus-exporter-${ES_VERSION}.0.zip
 
 CMD ["./elasticsearch"]
