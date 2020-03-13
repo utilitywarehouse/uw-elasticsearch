@@ -23,6 +23,6 @@ USER elasticsearch
 WORKDIR /opt/elasticsearch/bin
 
 RUN \
-    ./elasticsearch-plugin install --batch https://distfiles.compuscene.net/elasticsearch/elasticsearch-prometheus-exporter-${ES_VERSION}.0.zip
+    ./elasticsearch-plugin install -b https://github.com/vvanholl/elasticsearch-prometheus-exporter/releases/download/${ES_VERSION}.0/prometheus-exporter-${ES_VERSION}.0.zip
 
 CMD ["./elasticsearch"]
