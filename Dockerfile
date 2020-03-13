@@ -12,7 +12,7 @@ RUN \
     apk --no-cache add bash && \
     mkdir -p /opt/elasticsearch && \
     cd /opt/elasticsearch && \
-    wget http://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ES_VERSION}-linux-x86_64.tar.gz && \
+    wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ES_VERSION}-linux-x86_64.tar.gz && \
     tar -zxvf elasticsearch-${ES_VERSION}-linux-x86_64.tar.gz --strip 1 && \
     rm elasticsearch-${ES_VERSION}-linux-x86_64.tar.gz && \
     addgroup -S -g 82 elasticsearch && \
