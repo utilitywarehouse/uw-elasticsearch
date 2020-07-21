@@ -1,15 +1,15 @@
-FROM adoptopenjdk/openjdk11:alpine-slim
+FROM adoptopenjdk/openjdk14:alpine-slim
 
 ENV LANG=C.UTF-8 \
     JAVA_HOME=/opt/java/openjdk \
     PATH=${PATH}:/opt/java/openjdk/bin \
     LANG=C.UTF-8 \
-    ES_VERSION="6.8.7"
+    ES_VERSION="6.8.10"
 
 RUN sed -i s/#networkaddress.cache.ttl=-1/networkaddress.cache.ttl=10/ $JAVA_HOME/conf/security/java.security
 
 RUN \
-    apk --no-cache add bash && \
+    apk --no-cache add bash ca-certificates && \
     mkdir -p /opt/elasticsearch && \
     cd /opt/elasticsearch && \
     wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ES_VERSION}.tar.gz && \
