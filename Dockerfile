@@ -25,4 +25,7 @@ WORKDIR /opt/elasticsearch/bin
 RUN \
     ./elasticsearch-plugin install -b https://github.com/vvanholl/elasticsearch-prometheus-exporter/releases/download/${ES_VERSION}.0/prometheus-exporter-${ES_VERSION}.0.zip
 
+RUN \
+    ./elasticsearch-plugin install -b repository-s3
+
 CMD ["./elasticsearch"]
