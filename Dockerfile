@@ -1,10 +1,10 @@
-FROM adoptopenjdk/openjdk15:alpine-slim
+FROM adoptopenjdk/openjdk16:alpine-slim
 
 ENV LANG=C.UTF-8 \
     JAVA_HOME=/opt/java/openjdk \
     PATH=${PATH}:/opt/java/openjdk/bin \
     LANG=C.UTF-8 \
-    ES_VERSION="7.10.0"
+    ES_VERSION="7.11.2"
 
 RUN sed -i s/#networkaddress.cache.ttl=-1/networkaddress.cache.ttl=10/ $JAVA_HOME/conf/security/java.security
 
