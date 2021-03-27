@@ -1,3 +1,3 @@
 # uw-elasticsearch
 
-[![Docker Repository on Quay](https://quay.io/repository/utilitywarehouse/elasticsearch/status "Docker Repository on Quay")](https://quay.io/repository/utilitywarehouse/elasticsearch)
+[![Build Status](https://drone.prod.merit.uw.systems/api/badges/utilitywarehouse/uw-elasticsearch/status.svg)](https://drone.prod.merit.uw.systems/utilitywarehouse/uw-elasticsearch)
