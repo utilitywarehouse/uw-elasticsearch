@@ -4,7 +4,7 @@ ENV LANG=C.UTF-8 \
     ES_JAVA_HOME=/opt/java/openjdk \
     PATH=${PATH}:/opt/java/openjdk/bin \
     LANG=C.UTF-8 \
-    ES_VERSION="7.16.3"
+    ES_VERSION="7.17.7"
 
 RUN sed -i s/#networkaddress.cache.ttl=-1/networkaddress.cache.ttl=10/ $JAVA_HOME/conf/security/java.security
 
