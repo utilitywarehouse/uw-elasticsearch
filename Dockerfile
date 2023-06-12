@@ -4,7 +4,7 @@ ENV LANG=C.UTF-8 \
     ES_JAVA_HOME=/opt/java/openjdk \
     PATH=${PATH}:/opt/java/openjdk/bin \
     LANG=C.UTF-8 \
-    ES_VERSION="7.17.7"
+    ES_VERSION="8.8.1"
 
 RUN sed -i s/#networkaddress.cache.ttl=-1/networkaddress.cache.ttl=10/ $JAVA_HOME/conf/security/java.security
 
@@ -22,7 +22,7 @@ USER elasticsearch
 WORKDIR /opt/elasticsearch/bin
 
 RUN \
-    ./elasticsearch-plugin install -b https://github.com/vvanholl/elasticsearch-prometheus-exporter/releases/download/${ES_VERSION}.0/prometheus-exporter-${ES_VERSION}.0.zip && \
+    ./elasticsearch-plugin install -b https://github.com/andyp-uw/elasticsearch-prometheus-exporter/releases/download/${ES_VERSION}.0/prometheus-exporter-${ES_VERSION}.0.zip && \
     ./elasticsearch-plugin install -b repository-s3
 
 CMD ["./elasticsearch"]
