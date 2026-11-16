@@ -1,28 +1,34 @@
-FROM eclipse-temurin:17-jdk
+FROM ubuntu:26.04
 
-ENV LANG=C.UTF-8 \
-    ES_JAVA_HOME=/opt/java/openjdk \
-    PATH=${PATH}:/opt/java/openjdk/bin \
-    LANG=C.UTF-8 \
-    ES_VERSION="8.8.1"
+ARG ES_VERSION=9.5.6
+ENV ES_VERSION=${ES_VERSION} \
+    ES_HOME=/opt/elasticsearch \
+    LANG=C.UTF-8
 
-RUN sed -i s/#networkaddress.cache.ttl=-1/networkaddress.cache.ttl=10/ $JAVA_HOME/conf/security/java.security
-
-RUN \
-    mkdir -p /opt/elasticsearch && \
-    cd /opt/elasticsearch && \
-    curl -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ES_VERSION}-linux-x86_64.tar.gz && \
-    tar -zxvf elasticsearch-${ES_VERSION}-linux-x86_64.tar.gz --strip 1 && \
-    rm elasticsearch-${ES_VERSION}-linux-x86_64.tar.gz && \
-    addgroup --system --gid 82 elasticsearch && \
-    adduser --system --disabled-password --no-create-home --uid 82 elasticsearch --ingroup elasticsearch && \
-    chown -R elasticsearch:elasticsearch /opt/elasticsearch
+RUN set -eux; \
+    groupadd --system --gid 82 elasticsearch; \
+    useradd --system --uid 82 --gid 82 --home-dir "${ES_HOME}" --no-create-home --shell /usr/sbin/nologin elasticsearch; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends curl ca-certificates; \
+    tarball="elasticsearch-${ES_VERSION}-linux-x86_64.tar.gz"; \
+    cd /tmp; \
+    curl -fsSLO "https://artifacts.elastic.co/downloads/elasticsearch/${tarball}"; \
+    curl -fsSLO "https://artifacts.elastic.co/downloads/elasticsearch/${tarball}.sha512"; \
+    sha512sum -c "${tarball}.sha512"; \
+    mkdir -p "${ES_HOME}"; \
+    tar -xzf "${tarball}" -C "${ES_HOME}" --strip-components=1; \
+    java_security="${ES_HOME}/jdk/conf/security/java.security"; \
+    sed -i 's/^#networkaddress.cache.ttl=-1$/networkaddress.cache.ttl=10/' "${java_security}"; \
+    grep -qx 'networkaddress.cache.ttl=10' "${java_security}"; \
+    chown -R elasticsearch:elasticsearch "${ES_HOME}"; \
+    rm -f "${tarball}" "${tarball}.sha512"; \
+    apt-get purge -y --auto-remove curl; \
+    rm -rf /var/lib/apt/lists/*
 
 USER elasticsearch
 WORKDIR /opt/elasticsearch/bin
 
-RUN \
-    ./elasticsearch-plugin install -b https://github.com/andyp-uw/elasticsearch-prometheus-exporter/releases/download/${ES_VERSION}.0/prometheus-exporter-${ES_VERSION}.0.zip && \
-    ./elasticsearch-plugin install -b repository-s3
+RUN ./elasticsearch-plugin install --batch \
+        "https://github.com/mindw/elasticsearch-prometheus-exporter/releases/download/${ES_VERSION}.0/prometheus-exporter-${ES_VERSION}.0.zip"
 
 CMD ["./elasticsearch"]
