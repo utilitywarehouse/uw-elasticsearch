@@ -1,6 +1,6 @@
 FROM ubuntu:26.04
 
-ARG ES_VERSION=9.5.6
+ARG ES_VERSION=8.19.25
 ENV ES_VERSION=${ES_VERSION} \
     ES_HOME=/opt/elasticsearch \
     LANG=C.UTF-8
